@@ -8,7 +8,16 @@ var APIkey = "8b076f5b1b5730cd519b838268d9d96c";
 
 
 class App extends Component {
-  
+
+  state = {
+    temperature: undefined,
+    city: undefined,
+    country: undefined,
+    humidity: undefined,
+    description: undefined,
+    error: undefined
+  }
+
   getWeather = async (event) => {
     event.preventDefault();
 
@@ -22,14 +31,33 @@ class App extends Component {
     const dataZip = await apiCallZip.json();
     console.log(dataCity);
     console.log(dataZip);
+
+    var tempa1 = Math.round(dataCity.main.temp);
+
+    this.setState(
+      {
+        temperature: tempa1 + " °F",
+        city: dataCity.name,
+        country: dataCity.sys.country,
+        humidity: "Humidity: " + dataCity.main.humidity + "%",
+        description: dataCity.weather[0].description,
+        error: ""
+      }
+    )
   }
 
   render() {
     return (
       <center>
         <Header />
-        <SearchForm getWeather={this.getWeather}/>
-        <Weather />
+        <SearchForm getWeather={this.getWeather} />
+        <Weather
+          temperature={this.state.temperature}
+          city={this.state.city}
+          country={this.state.country}
+          humidity={this.state.humidity}
+          description={this.state.description}
+          error={this.state.error} />
       </center>
     );
   }
