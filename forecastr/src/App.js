@@ -15,7 +15,8 @@ class App extends Component {
     country: undefined,
     humidity: undefined,
     description: undefined,
-    error: undefined
+    error: undefined,
+    zip: undefined
   }
 
   getWeather = async (event) => {
@@ -27,21 +28,33 @@ class App extends Component {
     const apiCallCity = await fetch(`https://api.openweathermap.org/data/2.5/weather?&q=${cityName}&apikey=${APIkey}&units=imperial`);
     const apiCallZip = await fetch(`https://api.openweathermap.org/data/2.5/weather?&zip=${zipName}&apikey=${APIkey}&units=imperial`);
 
-    const dataCity = await apiCallCity.json();
-    const dataZip = await apiCallZip.json();
+    var dataCity = await apiCallCity.json();
+    var dataZip = await apiCallZip.json();
     console.log(dataCity);
     console.log(dataZip);
 
-    var tempa1 = Math.round(dataCity.main.temp);
+    dataCity = dataCity.cod !== '400' ? dataCity : null;
+    dataZip = dataZip.cod !== '400' ? dataZip : null;
+
+    var tempa1, tempa2;
+
+    if (dataCity) {
+      var tempa1 = Math.round(dataCity.main.temp)
+    }
+
+    if (dataZip) {
+      var tempa2 = Math.round(dataZip.main.temp)
+    }
 
     this.setState(
       {
-        temperature: tempa1 + " °F",
-        city: dataCity.name,
-        country: dataCity.sys.country,
-        humidity: "Humidity: " + dataCity.main.humidity + "%",
-        description: dataCity.weather[0].description,
-        error: ""
+        temperature: (tempa1 || tempa2) + " °F",
+        city: (dataCity || dataZip).name,
+        // country: dataCity.sys.country,
+        humidity: "Humidity: " + (dataCity || dataZip).main.humidity + "%",
+        description: (dataCity || dataZip).weather[0].description,
+        error: "",
+        // zip: !isNaN(parseInt(zipName)) ? parseInt(zipName) : null
       }
     )
   }
@@ -57,7 +70,9 @@ class App extends Component {
           country={this.state.country}
           humidity={this.state.humidity}
           description={this.state.description}
-          error={this.state.error} />
+          error={this.state.error}
+          zip={this.state.zip}
+        />
       </center>
     );
   }

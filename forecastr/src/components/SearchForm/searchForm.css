@@ -1,4 +1,15 @@
 .card{
     width: 300px;
     padding: 10px;
+    color: #9e9e9e;
+}
+
+input{
+    font-family: 'Quicksand', sans-serif !important;
+}
+
+button{
+    font-family: 'Quicksand', sans-serif !important;
+    background-color: orchid !important;
+    margin-bottom: 10px;
 }

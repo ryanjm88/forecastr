@@ -6,8 +6,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("./images/background.jpg");
-  background-repeat: no-repeat;
+  background-image: url("./images/background.png");
+  font-family: 'Quicksand', sans-serif;
 }
 
 code {
