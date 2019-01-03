@@ -36,8 +36,6 @@ class App extends Component {
     dataCity = dataCity.cod !== '400' ? dataCity : null;
     dataZip = dataZip.cod !== '400' ? dataZip : null;
 
-    var tempa1, tempa2;
-
     if (dataCity) {
       var tempa1 = Math.round(dataCity.main.temp)
     }
